@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:SuperSimpleNetworkChat_windows"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+         <local:MockChatMessages x:Key="MockChatMessages" />
     </Application.Resources>
 </Application>

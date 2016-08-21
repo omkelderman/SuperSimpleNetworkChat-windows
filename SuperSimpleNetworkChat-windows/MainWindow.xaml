@@ -5,8 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SuperSimpleNetworkChat_windows"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        d:DataContext="{StaticResource ResourceKey=MockChatMessages}"
+        Title="Super Simple Network Chat" Height="350" Width="525">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <GridSplitter HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="MessageInputBox" Grid.Row="2" Margin="5" />
+        <Button x:Name="SendButton" Content="Button" Grid.Column="1" Margin="5" Grid.Row="2"/>
+
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <GridSplitter HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0" Grid.Column="1"/>
+
+            <ListBox x:Name="KnownPeersBox" Grid.Column="2" Margin="5">
+                <ListBoxItem>Ham</ListBoxItem>
+                <ListBoxItem>Kaas</ListBoxItem>
+            </ListBox>
+
+
+            <ListBox HorizontalContentAlignment="Stretch" x:Name="ChatBox" ItemsSource="{Binding Path=Items}">
+                <ListBox.Resources>
+                    <DataTemplate DataType="{x:Type local:SelfChatMessage}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Message}" Background="Red" TextAlignment="Right" HorizontalAlignment="Stretch" />
+                            <TextBlock Grid.Column="1" Background="Black" Foreground="White"
+                                        Text="{Binding Path=MessageReadCount, StringFormat=[\{0\}]}"
+                                        ToolTip="{Binding Path=MessageReadPeersList}">
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:PeerChatMessage}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" Background="Black" Foreground="White" />
+                            <TextBlock Grid.Column="1"  Text="{Binding Message}" Background="Green" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.Resources>
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>
